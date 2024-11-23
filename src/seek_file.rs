@@ -18,16 +18,6 @@ use crate::check_path::is_valid_directory;
 /// ディレクトリが無効な場合はエラーを返します。
 /// 拡張子が指定されていない場合はエラーを返します。
 ///
-/// # 例
-/// ```
-/// let result = seek_file(Path::new("/path/to/directory"));
-/// match result {
-///     Ok(paths) => for path in paths {
-///         println!("Found at: {}", path.display());
-///     },
-///     Err(e) => println!("An error occurred: {}", e),
-/// }
-/// ```
 ///
 pub fn seek_file_by_extension(
     directory_path: &Path,
