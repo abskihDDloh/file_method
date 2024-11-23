@@ -1,7 +1,6 @@
-use std::{
-    fs,
-    path::{Path, PathBuf},
-};
+use std::fs;
+use std::path::{Path, PathBuf};
+
 /// Converts the given source path to a full path.
 ///
 /// # Arguments
