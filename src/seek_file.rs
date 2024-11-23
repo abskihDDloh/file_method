@@ -94,8 +94,8 @@ mod tests {
 
     #[test]
     fn test_seek_file_with_non_files() {
-        let temp_dir: PathBuf = PathBuf::from("test_file/dummy_not_target_files_dir");
-        let files = seek_file_by_extension(temp_dir.as_path(), "pdf").unwrap();
+        let temp_dir: PathBuf = PathBuf::from("test_file/dummy_target_files_dir");
+        let files = seek_file_by_extension(temp_dir.as_path(), "txt").unwrap();
         assert_eq!(files.len(), 0);
     }
 }
