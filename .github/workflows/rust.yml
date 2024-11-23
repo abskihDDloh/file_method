@@ -10,12 +10,30 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  lint:
     runs-on: ubuntu-latest
-
+    steps:
+    - name: Checkout Crate
+      uses: actions/checkout@v4
+    - name: Set Toolchain
+      # https://github.com/dtolnay/rust-toolchain
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: stable
+        components: rustfmt, clippy
+    - name: Run check
+      run: cargo check
+    - name: Run rustfmt
+      run: cargo fmt --all -- --check
+    - name: Run clippy
+      run: cargo clippy -- -D warnings
+      
+  build:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Set Toolchain
+      uses: dtolnay/rust-toolchain@stable
     - name: Build
       run: cargo build --verbose
     - name: Run tests
