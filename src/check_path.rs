@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 /// # Returns
 ///
 /// Returns a `Result` containing the full path as a `PathBuf` if successful, or an `std::io::Error` if an error occurs.
-fn get_full_path(src_path: &Path) -> std::io::Result<PathBuf> {
+pub fn get_full_path(src_path: &Path) -> std::io::Result<PathBuf> {
     let full_path = match fs::canonicalize(src_path) {
         Ok(path) => path,
         Err(e) => return Err(e),
