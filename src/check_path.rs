@@ -11,10 +11,7 @@ use std::path::{Path, PathBuf};
 ///
 /// Returns a `Result` containing the full path as a `PathBuf` if successful, or an `std::io::Error` if an error occurs.
 pub fn get_full_path(src_path: &Path) -> std::io::Result<PathBuf> {
-    let full_path = match fs::canonicalize(src_path) {
-        Ok(path) => path,
-        Err(e) => return Err(e),
-    };
+    let full_path = fs::canonicalize(src_path)?;
     Ok(full_path)
 }
 
@@ -27,10 +24,10 @@ pub fn get_full_path(src_path: &Path) -> std::io::Result<PathBuf> {
 /// # Returns
 ///
 /// Returns a `Result` containing the string representation of the path if successful, or an `std::io::Error` if an error occurs.
-fn get_path_str(src_path: &Path) -> std::io::Result<&str> {
+fn get_path_str(src_path: &Path) -> std::io::Result<String> {
     let path_str_option: Option<&str> = src_path.to_str();
     let path_str = match path_str_option {
-        Some(s) => s,
+        Some(s) => s.to_string(),
         None => {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::Other,
@@ -51,16 +48,8 @@ fn get_path_str(src_path: &Path) -> std::io::Result<&str> {
 ///
 /// Returns a `Result` containing the full path as a `PathBuf` if the directory is valid, or an `std::io::Error` if it is not valid.
 pub fn is_valid_directory(directory_path: &Path) -> std::io::Result<PathBuf> {
-    let full_path: PathBuf = match get_full_path(directory_path) {
-        Ok(path) => path,
-        Err(e) => return Err(e),
-    };
-
-    let path_str: &str = match get_path_str(&full_path) {
-        Ok(s) => s,
-        Err(e) => return Err(e),
-    };
-
+    let full_path: PathBuf = get_full_path(directory_path)?;
+    let path_str: String = get_path_str(&full_path)?;
     if !full_path.is_dir() {
         return Err(std::io::Error::new(
             std::io::ErrorKind::Other,
@@ -80,16 +69,8 @@ pub fn is_valid_directory(directory_path: &Path) -> std::io::Result<PathBuf> {
 ///
 /// Returns a `Result` containing the full path as a `PathBuf` if the file is valid, or an `std::io::Error` if it is not valid.
 pub fn is_valid_file(file_path: &Path) -> std::io::Result<PathBuf> {
-    let full_path: PathBuf = match get_full_path(file_path) {
-        Ok(path) => path,
-        Err(e) => return Err(e),
-    };
-
-    let path_str: &str = match get_path_str(&full_path) {
-        Ok(s) => s,
-        Err(e) => return Err(e),
-    };
-
+    let full_path: PathBuf = get_full_path(file_path)?;
+    let path_str: String = get_path_str(&full_path)?;
     if !full_path.is_file() {
         return Err(std::io::Error::new(
             std::io::ErrorKind::Other,

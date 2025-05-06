@@ -23,10 +23,7 @@ pub fn seek_file_by_extension(
     directory_path: &Path,
     extension: &str,
 ) -> std::io::Result<Vec<std::path::PathBuf>> {
-    let src_dir: std::path::PathBuf = match is_valid_directory(directory_path) {
-        Ok(path) => path,
-        Err(e) => return Err(e),
-    };
+    let src_dir: std::path::PathBuf = is_valid_directory(directory_path)?;
     //extensionが指定されていない場合はエラーを返す。
     if extension.is_empty() {
         return Err(std::io::Error::new(
